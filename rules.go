@@ -5,11 +5,15 @@ type Rule struct {
 	Times   int
 }
 
-var Rules = map[string]*Rule{
+var rules = map[string]*Rule{
 	//
 }
 
-//var Rules = map[string]*struct {
+func Add(module string, rule *Rule) {
+	rules[module] = rule
+}
+
+//var rules = map[string]*struct {
 //	Minutes int32
 //	Times   int32
 //}{

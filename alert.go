@@ -2,9 +2,6 @@ package alert
 
 import (
 	"errors"
-	"fmt"
-	"runtime"
-
 	"github.com/garyburd/redigo/redis"
 	"gopkg.in/gomail.v2"
 )
@@ -22,7 +19,7 @@ func SendMail(conn redis.Conn, module, subject, body string, to ...string) (e er
 	if "" == from {
 		return errors.New("do setup first")
 	}
-	
+
 	if nil == conn {
 		return errors.New("conn=nil")
 	}
@@ -35,16 +32,8 @@ func SendMail(conn redis.Conn, module, subject, body string, to ...string) (e er
 	return sendMail(subject, body, to...)
 }
 
-func TraceId() (traceId string, ok bool) {
-	_, f, l, ok := runtime.Caller(2)
-	if !ok {
-		return
-	}
-	return fmt.Sprintf("%s:%d", f, l), true
-}
-
 func hitRule(module, subject string, conn redis.Conn) (ok bool, e error) {
-	rule, ok := Rules[module]
+	rule, ok := rules[module]
 	if !ok {
 		return
 	}

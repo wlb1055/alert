@@ -3,7 +3,7 @@ module github.com/wlb1055/alert
 go 1.17
 
 require (
-	github.com/garyburd/redigo v1.6.3
+	github.com/gomodule/redigo v1.8.9
 	gopkg.in/gomail.v2 v2.0.0-20160411212932-81ebce5c23df
 )
 

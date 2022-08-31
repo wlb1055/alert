@@ -2,7 +2,7 @@ package alert
 
 import (
 	"errors"
-	"github.com/garyburd/redigo/redis"
+	"github.com/gomodule/redigo/redis"
 	"gopkg.in/gomail.v2"
 )
 

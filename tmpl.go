@@ -7,8 +7,8 @@ var HtmlTmpl = `
 </head>
 <body>
 
-<xmp>%s</xmp>
-<xmp>%s</xmp>
+<pre>%s</pre>
+<pre>%s</pre>
 
 </body>
 </html>

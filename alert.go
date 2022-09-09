@@ -6,17 +6,14 @@ import (
 	"gopkg.in/gomail.v2"
 )
 
-var from string
-
 var dialer = &gomail.Dialer{}
 
-func Setup(username, password string) {
-	from = username
-	dialer = gomail.NewDialer("smtp.qq.com", 587, username, password)
+func Setup(from, password string) {
+	dialer = gomail.NewDialer("smtp.qq.com", 587, from, password)
 }
 
 func SendMail(conn redis.Conn, module, subject, body string, to ...string) (e error) {
-	if "" == from {
+	if "" == dialer.Username {
 		return errors.New("do setup first")
 	}
 
@@ -32,27 +29,10 @@ func SendMail(conn redis.Conn, module, subject, body string, to ...string) (e er
 	return sendMail(subject, body, to...)
 }
 
-func hitRule(module, subject string, conn redis.Conn) (ok bool, e error) {
-	rule, ok := rules[module]
-	if !ok {
-		return
-	}
-
-	n, e := redis.Int(conn.Do("INCR", subject))
-	if e != nil {
-		return
-	}
-	if 1 == n {
-		conn.Do("EXPIRE", subject, rule.Minutes*60)
-	}
-
-	return rule.Times == n, nil
-}
-
 func sendMail(subject, body string, to ...string) error {
 	m := gomail.NewMessage()
 
-	m.SetHeader("From", from)
+	m.SetHeader("From", dialer.Username)
 	m.SetHeader("To", to...)
 	m.SetHeader("Subject", subject)
 

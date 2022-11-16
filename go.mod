@@ -1,4 +1,4 @@
-module github.com/wlb1055/alert
+module github.com/wl955/alert
 
 go 1.17
 

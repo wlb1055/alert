@@ -8,8 +8,23 @@ import (
 
 var dialer = &gomail.Dialer{}
 
-func Setup(from, password string) {
-	dialer = gomail.NewDialer("smtp.qq.com", 587, from, password)
+func Init(opts ...Option) {
+	dialer = gomail.NewDialer("smtp.qq.com", 587, "", "")
+	for _, opt := range opts {
+		opt()
+	}
+}
+
+func From(from string) Option {
+	return func() {
+		dialer.Username = from
+	}
+}
+
+func Password(password string) Option {
+	return func() {
+		dialer.Password = password
+	}
 }
 
 func SendMail(conn redis.Conn, module, subject, body string, to ...string) (e error) {

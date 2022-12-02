@@ -9,27 +9,18 @@ import (
 var dialer = &gomail.Dialer{}
 
 func Init(opts ...Option) {
-	dialer = gomail.NewDialer("smtp.qq.com", 587, "", "")
+	custom := Options{}
+
 	for _, opt := range opts {
-		opt()
+		opt(&custom)
 	}
-}
 
-func From(from string) Option {
-	return func() {
-		dialer.Username = from
-	}
-}
-
-func Password(password string) Option {
-	return func() {
-		dialer.Password = password
-	}
+	dialer = gomail.NewDialer("smtp.qq.com", 587, custom.username, custom.password)
 }
 
 func SendMail(conn redis.Conn, module, subject, body string, to ...string) (e error) {
 	if "" == dialer.Username {
-		return errors.New("do setup first")
+		return errors.New("init first")
 	}
 
 	if nil == conn {

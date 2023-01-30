@@ -20,7 +20,7 @@ var HtmlTmpl = `
 `
 
 //内置一个，也可以自定义
-func SubjectId() (traceId string, ok bool) {
+func SubjectStr() (s string, ok bool) {
 	_, f, l, ok := runtime.Caller(2)
 	if !ok {
 		return

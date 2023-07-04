@@ -19,8 +19,8 @@ var HtmlTmpl = `
 </html>
 `
 
-//内置一个，也可以自定义
-func SubjectStr() (s string, ok bool) {
+// 内置一个，也可以自定义
+func SubjectStr() (str string, ok bool) {
 	_, f, l, ok := runtime.Caller(2)
 	if !ok {
 		return
